@@ -1,7 +1,11 @@
 import React from "react";
 import { Root } from "native-base";
-// import { StackNavigator, DrawerNavigator } from "react-navigation";
-import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
+import {
+	createDrawerNavigator,
+	createStackNavigator,
+	createAppContainer,
+	createSwitchNavigator
+} from "react-navigation";
 
 import Header from "./screens/Header/";
 import Header1 from "./screens/Header/1";
@@ -137,6 +141,8 @@ import NHToast from "./screens/toast/";
 import Actionsheet from "./screens/actionsheet";
 import NHAccordion from "./screens/accordion/";
 import NHDatePicker from "./screens/datepicker/";
+import { Initializer } from "./screens/Initializer";
+import { Login } from "./screens/Login";
 
 const Drawer = createDrawerNavigator(
   {
@@ -310,7 +316,18 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AppContainer = createAppContainer(AppNavigator);
+const AuthStack = createStackNavigator({ Login });
+
+const AppContainer = createAppContainer(createSwitchNavigator(
+  {
+    Initializer,
+    App: AppNavigator,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'Initializer',
+  }
+));
 
 export default () =>
   <Root>
