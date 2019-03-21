@@ -141,8 +141,11 @@ import NHToast from "./screens/toast/";
 import Actionsheet from "./screens/actionsheet";
 import NHAccordion from "./screens/accordion/";
 import NHDatePicker from "./screens/datepicker/";
-import { Initializer } from "./screens/Initializer";
-import { Login } from "./screens/Login";
+import { Initializer } from "./Initializer";
+
+import { Login } from "./screens/auth/Login";
+import { Signup } from "./screens/auth/Signup";
+import { Confirmation } from "./screens/auth/Confirmation";
 
 const Drawer = createDrawerNavigator(
   {
@@ -316,7 +319,7 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AuthStack = createStackNavigator({ Login });
+const AuthStack = createStackNavigator({ Login, Signup, Confirmation });
 
 const AppContainer = createAppContainer(createSwitchNavigator(
   {
@@ -325,11 +328,12 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     Auth: AuthStack,
   },
   {
-    initialRouteName: 'Initializer',
+    initialRouteName: "Initializer",
   }
 ));
 
 export default () =>
   <Root>
     <AppContainer />
-  </Root>;
+	</Root>;
+	
