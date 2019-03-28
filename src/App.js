@@ -113,7 +113,6 @@ import AccordionIconStyle from "./screens/accordion/accordion-icon-style";
 import AccordionHeaderContentStyle from "./screens/accordion/accordion-header-content-style";
 import AccordionCustomHeaderContent from "./screens/accordion/accordion-custom-header-content";
 
-import Home from "./screens/home/";
 import Anatomy from "./screens/anatomy/";
 import Footer from "./screens/footer/";
 import NHBadge from "./screens/badge/";
@@ -146,10 +145,12 @@ import { Initializer } from "./Initializer";
 import { Login } from "./screens/auth/Login";
 import { Signup } from "./screens/auth/Signup";
 import { Confirmation } from "./screens/auth/Confirmation";
+import { Dashboard } from './screens/dashboard/Dashboard';
+import { Deck } from './screens/deck/Deck';
 
 const Drawer = createDrawerNavigator(
   {
-    Home: { screen: Home },
+    Dashboard: { screen: Dashboard },
     Anatomy: { screen: Anatomy },
     Header: { screen: Header },
     Footer: { screen: Footer },
@@ -178,7 +179,7 @@ const Drawer = createDrawerNavigator(
     NHDatePicker: { screen: NHDatePicker }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Dashboard",
     contentOptions: {
       activeTintColor: "#e91e63"
     },
@@ -311,7 +312,9 @@ const AppNavigator = createStackNavigator(
     AccordionIcon: { screen: AccordionIcon },
     AccordionIconStyle: { screen: AccordionIconStyle },
     AccordionHeaderContentStyle: { screen: AccordionHeaderContentStyle },
-    AccordionCustomHeaderContent: { screen: AccordionCustomHeaderContent }
+		AccordionCustomHeaderContent: { screen: AccordionCustomHeaderContent },
+		
+		Deck,
   },
   {
     initialRouteName: "Drawer",
