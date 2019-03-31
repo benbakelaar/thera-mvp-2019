@@ -1,15 +1,4 @@
-# NativeBase KitchenSink v2.5.0
-An example app with all the UI components of NativeBase
-
-> **NativeBase-KitchenSink** comes in four forms of app for you!
->1. Pure React Native App with `react-navigation` on branch **[master](https://github.com/GeekyAnts/NativeBase-KitchenSink)**
->2. Pure React Native App with `RNRF` on branch **[RNRF](https://github.com/GeekyAnts/NativeBase-KitchenSink/tree/RNRF)**
->3. An Expo app with `CRNA` and `react-navigation` on branch **[CRNA](https://github.com/GeekyAnts/NativeBase-KitchenSink/tree/CRNA)**
->4. A React App with `NativeBase for web` on branch **[web-support](https://github.com/GeekyAnts/NativeBase-KitchenSink/tree/web-support)**
-
->Find the installation guide in `ReadMe` of appropriate branches
-
-## Demo
+# TheraMVP
 
 Based on https://expo.io/@geekyants/nativebasekitchensink
 
@@ -22,6 +11,10 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
 ## Installation
+
+Assumes you already have yarn installed: https://yarnpkg.com/lang/en/docs/install/#mac-stable
+
+Additionally you should install Xcode and Android Studio to run the simlulator/emulators
 
 *	**Install packages**
 ```

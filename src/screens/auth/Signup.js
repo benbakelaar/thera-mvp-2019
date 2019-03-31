@@ -2,41 +2,51 @@
  * Signup - Component used to start the auth flow
  */
 import React from 'react';
-import { View, Button as RNButton } from 'react-native';
-import { Form, Item, Input, Button, Text, H1 } from 'native-base';
+import { SafeAreaView, Image } from 'react-native';
+import { Form, Item, Input, Button, Text, H1, Spinner, Toast } from 'native-base';
 import { Auth } from 'aws-amplify';
 
 import { authStyles } from './styles';
 
 export class Signup extends React.Component {
 	state = {
-		username: '',
+		firstName: '',
 		email: '',
 		password: '',
+		loading: false,
 	}
 
-	onChangeUsername = (username) => this.setState({ username });
+	onChangeFirstName = (firstName) => this.setState({ firstName });
 
 	onChangeEmail = (email) => this.setState({ email });
 
 	onChangePassword = (password) => this.setState({ password });
 
 	onSignUpPress = async () => {
-		const { username, password, email } = this.state;
+		const { firstName, password, email } = this.state;
 		try {
+			this.setState({ loading: true });
 			// Send sign up requst
 			await Auth.signUp({
-				username,
+				username: email,
 				password,
 				attributes: {
 					email,
-				}
+					'custom:firstName': firstName,
+				},
 			});
 
 			// On success navigate to the confirmation screen, sending the username as a param
-			this.props.navigation.navigate('Confirmation', { username });
+			this.setState({ loading: false });
+			this.props.navigation.navigate('Confirmation', { username: email });
 		} catch (err) {
 			console.log(err);
+			Toast.show({
+				text: typeof err === 'string' ? err : err.message,
+				type: 'danger',
+				position: 'top',
+			});
+			this.setState({ loading: false });
 			// TODO: Display an error -- modal, toast, etc.
 		}
 	};
@@ -45,25 +55,27 @@ export class Signup extends React.Component {
 
   render() {
     return (
-      <View style={authStyles.container}>
-			<H1>Signup</H1>
+      <SafeAreaView style={authStyles.container}>
+				<Image style={authStyles.headerLogo} source={require("../../../assets/logo-header-434px.png")}/>
+				<H1 style={authStyles.header}>Create an account</H1>
 				<Form style={authStyles.form}>
-					<Item rounded style={authStyles.inputField}>
+					<Item style={authStyles.inputField} regular>
 						<Input
-							placeholder="Username"
-							value={this.state.username}
-							onChangeText={this.onChangeUsername}
+							placeholder="First Name"
+							value={this.state.firstName}
+							onChangeText={this.onChangeFirstName}
 						/>
 					</Item>
-					<Item rounded style={authStyles.inputField}>
+					<Item style={authStyles.inputField} regular>
 						<Input
+							autoCapitalize="none"
 							placeholder="Email"
 							value={this.state.email}
 							keyboardType="email-address"
 							onChangeText={this.onChangeEmail}
 						/>
 					</Item>
-					<Item rounded style={authStyles.inputField}>
+					<Item style={authStyles.inputField} regular>
 						<Input
 							placeholder="Password"
 							value={this.state.password}
@@ -71,13 +83,20 @@ export class Signup extends React.Component {
 							secureTextEntry
 						/>
 					</Item>
+					<Text style={authStyles.termsText}>
+						By creating an account you agree to our Terms of service and Privacy Policy
+					</Text>
 					<Button block onPress={this.onSignUpPress} style={authStyles.button}>
-						<Text>Signup</Text>
+						{!this.state.loading
+							? <Text style={{ color: '#000' }}>SIGN UP</Text>
+							: <Spinner />
+						}
 					</Button>
-					<Text style={authStyles.or}>Or</Text>
-					<RNButton title="Login" onPress={this.navigateToLogin} />
+					<Button block onPress={this.navigateToLogin} light>
+						<Text>LOG IN</Text>
+					</Button>
 				</Form>
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -39,7 +39,7 @@ export class Login extends React.Component {
 				text: typeof err === 'string' ? err : err.message,
 				type: 'danger',
 				position: 'top',
-			})
+			});
 			console.log(err);
 		}
 	}
