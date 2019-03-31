@@ -2,53 +2,76 @@
  * Confirmation - component used to confirm a new user's code
  */
 import React from 'react';
-import { View } from 'react-native';
-import { Form, Item, Input, Button, Text, H1 } from 'native-base';
+import { Image, SafeAreaView, View } from 'react-native';
+import { H1, Text, Spinner, Toast } from 'native-base';
 import { Auth } from 'aws-amplify';
+import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 
 import { authStyles } from './styles';
 
 export class Confirmation extends React.Component {
 	state = {
 		code: '',
+		loading: false,
 	}
 
 	onChangeCode = (code) => this.setState({ code });
 
-	onConfirmPress = async () => {
+	onFulfill = async ( completeCode ) => {
 		try {
-
+			this.setState({ loading: true });
 			// Send confirmation request
 			await Auth.confirmSignUp(
 				this.props.navigation.state.params.username,
-				this.state.code,
+				completeCode,
 			);
 		
 			// TODO: Save user to state (or navigate to login)
 			// for now navigate into the app
+			this.setState({ loading: false });
 			this.props.navigation.navigate('App');
 		} catch (err) {
+			Toast.show({
+				text: typeof err === 'string' ? err : err.message,
+				type: 'danger',
+				position: 'top',
+			})
+
+			// Shake and reset the code
+			this.pinInput.current.shake()
+				.then(() => this.setState({ code: '', loading: false }));
 			console.log(err);
 		}
 	}
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-			<H1>Confirmation Code</H1>
-				<Form style={{ margin: 20 }}>
-					<Item rounded style={authStyles.inputField}>
-						<Input
-							placeholder="Confirmation Code"
-							value={this.state.code}
-							onChangeText={this.onChangeCode}
-						/>
-					</Item>
-					<Button block onPress={this.onConfirmPress} style={authStyles.button}>
-						<Text>Confirm</Text>
-					</Button>
-				</Form>
-      </View>
+      <SafeAreaView style={authStyles.container}>
+				<Image style={authStyles.headerLogo} source={require("../../../assets/logo-header-434px.png")}/>
+				<H1 style={authStyles.header}>You're almost there!</H1>
+
+				<View style={{ marginVertical: 50 }}>
+					{!this.state.loading 
+						? <SmoothPinCodeInput
+								codeLength={6}
+								cellStyle={{
+									borderBottomWidth: 2,
+									borderColor: 'gray',
+								}}
+								cellStyleFocused={{
+									borderColor: 'black',
+								}}
+								value={this.state.code}
+								onTextChange={this.onChangeCode}
+								onFulfill={this.onFulfill}
+							/>
+						: <Spinner />
+					}
+				</View>
+				<Text style={authStyles.description}>
+					Please confirm your account by entering the code sent to your email address.
+				</Text>
+      </SafeAreaView>
     );
   }
 }

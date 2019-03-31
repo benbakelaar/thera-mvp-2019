@@ -322,7 +322,15 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AuthStack = createStackNavigator({ Login, Signup, Confirmation });
+const AuthStack = createStackNavigator(
+	{
+		Signup,
+		Confirmation,
+		Login,
+	},
+	{
+		headerMode: 'none'
+	});
 
 const AppContainer = createAppContainer(createSwitchNavigator(
   {
