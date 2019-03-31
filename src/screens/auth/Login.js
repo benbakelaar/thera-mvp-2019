@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { View, Button as RNButton } from 'react-native';
-import { Form, Item, Input, Button, Text, H1 } from 'native-base';
+import { Form, Item, Input, Button, Text, H1, Spinner, Toast } from 'native-base';
 import { Auth } from 'aws-amplify';
 
 import { authStyles } from './styles';
@@ -12,6 +12,7 @@ export class Login extends React.Component {
 	state = {
 		username: '',
 		password: '',
+		loading: false,
 	}
 
 	onChangeUsername = (username) => this.setState({ username });
@@ -21,16 +22,24 @@ export class Login extends React.Component {
 	onSignInPress = async () => {
 		const { username, password } = this.state;
 		try {
+			this.setState({ loading: true });
 			// Verify the user
 			const user = await Auth.signIn(username, password);
 
 			// TODO: Save the user object to session so the app can use it.
+			this.setState({ loading: false });
 			console.log(user);
 
 			// Navigate into the app
 			this.props.navigation.navigate('App');
 		} catch (err) {
 			// TODO: Handle auth errors
+			this.setState({ loading: false });
+			Toast.show({
+				text: typeof err === 'string' ? err : err.message,
+				type: 'danger',
+				position: 'top',
+			})
 			console.log(err);
 		}
 	}
@@ -58,7 +67,10 @@ export class Login extends React.Component {
 						/>
 					</Item>
 					<Button block onPress={this.onSignInPress} style={authStyles.button}>
-						<Text>Login</Text>
+						{!this.state.loading
+							? <Text>Login</Text>
+							: <Spinner />
+						}
 					</Button>
 					<Text style={{ textAlign: 'center' }}>Or</Text>
 					<RNButton title="Sign up" onPress={this.navigateToSignup} />

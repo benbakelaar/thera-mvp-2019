@@ -18,6 +18,9 @@
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#334393"
-    }
+		},
+		"splash": {
+			"image": "./assets/splash.png"
+		}
   }
 }
