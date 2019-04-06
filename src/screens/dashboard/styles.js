@@ -1,18 +1,26 @@
 export default {
+	pointsContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	pointsCircleContainer: {
+		flex: .3
+	},
 	pointsCircle: {
 		alignSelf: 'center',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop: 31,
 		borderRadius: '50%',
-		borderColor: '#707070',
+		borderColor: '#30ade8',
 		borderWidth: 1,
-		height: 81,
-		width: 81,
+		height: 71,
+		width: 71,
 	},
 	pointsCircleText: {
-		color:'#6E6E6E',
-		fontSize: 32,
+		color:'#30ade8',
+		fontSize: 28,
 	},
 	pointsLabelContainer: {
 		alignSelf: 'center',
@@ -20,7 +28,36 @@ export default {
 	},
 	pointsLabelText: {
 		color: '#000',
-		fontSize: 18,
+		fontSize: 16,
+		fontWeight: '100'
+	},
+	smallPointsCircle: {
+		alignSelf: 'center',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: '50%',
+		borderColor: '#666',
+		borderWidth: 1,
+		height: 61,
+		width: 61,
+		backgroundColor: '#DDD',
+	},
+	pointsCircleText: {
+		color:'#000',
+		fontSize: 24,
+	},
+	pointsLabelContainer: {
+		alignSelf: 'center',
+		marginTop: 6.5,
+	},
+	pointsLabelText: {
+		color: '#000',
+		fontSize: 12,
+		fontWeight: '100'
+	},
+	smallPointsLabelText: {
+		color: '#000',
+		fontSize: 9,
 		fontWeight: '100'
 	},
 	decksContainer: {
@@ -29,19 +66,31 @@ export default {
 	},
 	decksTitle: {
 		color: '#000',
-		fontSize: 22,
+		fontSize: 20,
 		fontWeight: 'bold',
 	},
 	deckPlaceholder: {
-		backgroundColor: '#E6AD5E',
-		height: 358,
-		width: 206,
-		paddingTop: 97.61,
-		marginTop: 9,
+		flex: .5,
+		width: undefined,
+		height: undefined,
 	},
 	deckPlaceholderText: {
 		paddingBottom: 3,
 		paddingLeft: 18.47,
 		fontStyle: 'italic',
 	},
+	deckList: {
+		flex: 1,
+		flexDirection: 'row',
+		paddingTop: 9,
+	},
+	welcomeContainer: {
+		marginVertical: 20,
+	},
+	welcomeText: {
+		textAlign: 'center',
+		fontSize: 24,
+		fontWeight: '200',
+		color: '#000',
+	}
 }

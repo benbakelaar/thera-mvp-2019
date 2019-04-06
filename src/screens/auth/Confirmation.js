@@ -10,6 +10,8 @@ import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import { authStyles } from './styles';
 
 export class Confirmation extends React.Component {
+	pinInput = null;
+	
 	state = {
 		code: '',
 		loading: false,
@@ -31,6 +33,7 @@ export class Confirmation extends React.Component {
 			this.setState({ loading: false });
 			this.props.navigation.navigate('App');
 		} catch (err) {
+			this.setState({ loading: false });
 			Toast.show({
 				text: typeof err === 'string' ? err : err.message,
 				type: 'danger',
@@ -53,6 +56,7 @@ export class Confirmation extends React.Component {
 				<View style={{ marginVertical: 50 }}>
 					{!this.state.loading 
 						? <SmoothPinCodeInput
+								ref={c => this.pinInput = c}
 								codeLength={6}
 								cellStyle={{
 									borderBottomWidth: 2,

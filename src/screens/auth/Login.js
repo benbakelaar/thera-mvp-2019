@@ -2,7 +2,7 @@
  * Login
  */
 import React from 'react';
-import { View, Button as RNButton } from 'react-native';
+import { SafeAreaView, Image } from 'react-native';
 import { Form, Item, Input, Button, Text, H1, Spinner, Toast } from 'native-base';
 import { Auth } from 'aws-amplify';
 
@@ -48,17 +48,19 @@ export class Login extends React.Component {
 
   render() {
     return (
-      <View style={authStyles.container}>
-			<H1>Login</H1>
+      <SafeAreaView style={authStyles.container}>
+				<Image style={authStyles.headerLogo} source={require("../../../assets/logo-header-434px.png")}/>
 				<Form style={authStyles.form}>
-					<Item rounded style={authStyles.inputField}>
+				<Item style={authStyles.inputField} regular>
 						<Input
-							placeholder="Username"
+							autoCapitalize="none"
+							placeholder="Email"
 							value={this.state.username}
+							keyboardType="email-address"
 							onChangeText={this.onChangeUsername}
 						/>
 					</Item>
-					<Item rounded style={authStyles.inputField}>
+					<Item style={authStyles.inputField} regular>
 						<Input
 							placeholder="Password"
 							value={this.state.password}
@@ -68,14 +70,15 @@ export class Login extends React.Component {
 					</Item>
 					<Button block onPress={this.onSignInPress} style={authStyles.button}>
 						{!this.state.loading
-							? <Text>Login</Text>
+							? <Text>LOGIN</Text>
 							: <Spinner />
 						}
 					</Button>
-					<Text style={{ textAlign: 'center' }}>Or</Text>
-					<RNButton title="Sign up" onPress={this.navigateToSignup} />
+					<Button block onPress={this.navigateToSignup} light>
+						<Text>SIGN UP</Text>
+					</Button>
 				</Form>
-      </View>
+      </SafeAreaView>
     );
   }
 }

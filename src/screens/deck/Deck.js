@@ -15,6 +15,7 @@ import {
   Body,
 	Toast
 } from "native-base";
+import { Auth } from 'aws-amplify';
 
 import styles from "./styles";
 import { commonStyles } from '../../common/styles';
@@ -31,17 +32,40 @@ const cards = [
 export class Deck extends Component {
 	currentCard = 0;
 
-	checkIfDone = () => {
+	checkIfDone = async () => {
+		// TODO:  Move api calls and logic to redux
 		if (++this.currentCard === cards.length) {
-			// TODO: If toasts are going to be used we should consider a reusable function with defaults
-			Toast.show({
-				text: '+10 points! Review tomorrow for +20!',
-				position: 'top',
-				textStyle: { fontSize: 18, fontWeight: '100' },
-				duration: 3000,
-				type: 'success',
-			});
-			this.props.navigation.goBack();
+			try {
+				const { attributes } = await Auth.currentAuthenticatedUser();
+
+				const result = await fetch('https://pln0wlwznl.execute-api.us-east-2.amazonaws.com/development/points', {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						user: attributes.sub,
+						points: 10,
+						deck: 1,
+					}),
+				});
+				console.log(result);
+
+				// TODO: Check if successful
+
+				// TODO: If toasts are going to be used we should consider a reusable function with defaults
+				Toast.show({
+					text: '+10 points! Review tomorrow for +20!',
+					position: 'top',
+					textStyle: { fontSize: 18, fontWeight: '100' },
+					duration: 3000,
+					type: 'success',
+				});
+				this.props.navigation.goBack();
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	}
 
